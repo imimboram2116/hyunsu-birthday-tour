@@ -2,8 +2,8 @@
 window.TRIP = {
   date: "10월 31일 (토)",
   crew: "보람 · 혜지",
-  // 5번 메모 저장용 Apps Script 웹앱 주소. 배포 후 채운다.
-  memoEndpoint: "",
+  // 5번 메모 저장용 Apps Script 웹앱 (시트: 현수 생일 투어 — 현수 메모, 2026-10-15 배포)
+  memoEndpoint: "https://script.google.com/macros/s/AKfycbyojDHA2u5Zlmzcs2mMnYvkVjRu_0TcNJMXrAqOKqBv4d0MQt18Mn51mXD3J7FwV-BwtQ/exec",
 };
 
 window.TOURS = [
