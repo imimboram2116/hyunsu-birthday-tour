@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>현수 생일 기념 원데이 투어</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  /* 왓챠피디아 연말결산 2023 원본(709px 폭)에서 잰 값을 폭 대비 비율(cqw)로 옮김
+     - 로고 위치: 위에서 133px → 18.8cqw, 색 #A4D5ED
+     - 제목 채움 #FB71C6, 테두리 #191840, 테두리 바깥 두께 3px → 선 굵기 6px → 0.85cqw
+     - 제목 획 굵기/글자 높이 0.152 → Pretendard 700과 같음
+     - 줄 간격: 122px → 17.2cqw
+     - 가장 긴 줄 폭: 540px → 76% (원본은 한 줄 5글자, «현수 생일 기념»이 더 길어서 폭 기준으로 맞춤) */
+  :root {
+    --pink: #fb71c6; --outline: #191840; --logo: #a4d5ed;
+    --grass: #0e6f4c;   /* 표지 이미지 맨 아래 풀밭 색 — 흰 글씨 6.18 · 크림 5.29 */
+    --cream: #ebefe0; --ink: #191840; --ink-soft: #4a5674;
+  }
+  html { scroll-behavior: smooth; }
+  html, body { margin: 0; background: var(--grass); }
+  body { container-type: inline-size; line-height: 1.45; font-family: "Pretendard", system-ui, sans-serif; color: var(--ink); word-break: keep-all; -webkit-text-size-adjust: 100%; }
+  a { color: inherit; }
+  /* 가운데 글 영역은 최대 520px. 배경은 화면 폭 전체로 깔리고,
+     원본+좌우반전 한 쌍(cover-bg-tile.jpg)을 가로로 반복해 넓은 화면에서도 이어지게 함 */
+  .cover {
+    --col: min(100cqw, 520px);  /* 100vw는 세로 스크롤바까지 포함해 옆으로 넘쳐서 body 폭 기준으로 */
+    background: url("shared/img/cover-bg-tile.jpg") repeat-x;
+    background-size: calc(var(--col) * 2) calc(var(--col) * 878 / 709);
+    background-position: calc(50% + var(--col) / 2) top;
+    background-color: #1fa58a;
+  }
+  .col {
+    container-type: inline-size;
+    width: var(--col); margin: 0 auto; aspect-ratio: 709 / 878;
+    display: flex; flex-direction: column; align-items: center; box-sizing: border-box;
+  }
+  .date {
+    margin: 18.8cqw 0 0; font-family: "Pretendard", sans-serif; font-weight: 600;
+    font-size: 19px; line-height: 1; letter-spacing: 0.01em; color: var(--logo);
+  }
+  h1 {
+    margin: 6cqw 0 0; text-align: center;
+    font-family: "Pretendard", sans-serif; font-weight: 700;
+    font-size: 13.8cqw; line-height: 1.1; letter-spacing: -0.02em;
+    color: var(--pink);
+    -webkit-text-stroke: 0.85cqw var(--outline); paint-order: stroke fill;
+  }
+  /* 원본 «Sora Kim님의 / 2023년 콘텐츠 여정은…» 줄: 흰색, 글자 크기 폭의 약 3.95% */
+  .sub {
+    margin: 6cqw 0 0; text-align: center;
+    font-family: "Pretendard", sans-serif; font-weight: 400;
+    font-size: max(3.95cqw, 15px); line-height: 1.5; color: #fff;
+  }
+
+  /* ===== 본문 ===== */
+  .wrap { max-width: 520px; margin: 0 auto; padding: 0 16px; box-sizing: border-box; }
+  .sec-title { margin: 40px 0 16px; color: #fff; font-size: 24px; font-weight: 800; letter-spacing: -0.02em; text-align: center; }
+
+  /* 4가지 코스 미리보기 — 2×2 */
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .card {
+    display: flex; flex-direction: column; gap: 6px; min-height: 150px;
+    padding: 16px 14px 14px; border-radius: 22px; background: var(--cream);
+    text-decoration: none; transition: transform .15s ease;
+  }
+  .card:active { transform: scale(.97); }
+  .no {
+    width: 36px; height: 36px; border-radius: 50%; flex: none;
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--pink); color: var(--ink); font-weight: 800; font-size: 15px;
+  }
+  .card .where { font-size: 13px; color: var(--ink-soft); margin-top: 4px; }
+  .card .ttl { font-size: 17px; font-weight: 800; line-height: 1.3; letter-spacing: -0.02em; }
+  .card .go { margin-top: auto; font-size: 13px; color: var(--ink-soft); }
+
+  /* 코스 상세 */
+  .tour { padding-top: 48px; scroll-margin-top: 0; }
+  .tour-head { text-align: center; color: #fff; margin-bottom: 16px; }
+  .tour-head .no { width: 44px; height: 44px; font-size: 17px; }
+  .tour-head .where { margin: 10px 0 2px; font-size: 19px; font-weight: 500; }
+  .tour-head h2 {
+    margin: 0; font-size: 32px; line-height: 1.2; font-weight: 700; letter-spacing: -0.02em;
+    color: var(--pink); -webkit-text-stroke: 5px var(--outline); paint-order: stroke fill;
+  }
+  .block { background: var(--cream); border-radius: 22px; padding: 18px; margin-bottom: 12px; }
+  .block h3 { margin: 0 0 12px; font-size: 17px; font-weight: 800; }
+  .note { margin: -6px 0 10px; font-size: 14px; color: var(--ink-soft); }
+  .secret { margin-left: 8px; font-size: 13px; font-weight: 700; color: var(--pink); }
+  .places { display: grid; gap: 8px; }
+  .place { display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: #fff; border-radius: 16px; text-decoration: none; }
+  .place .txt { display: grid; gap: 2px; flex: 1; min-width: 0; }
+  .place .arrow { flex: none; width: 34px; height: 34px; border-radius: 50%; background: var(--pink); display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; line-height: 1; padding-bottom: 2px; box-sizing: border-box; }
+  .place small { font-size: 12px; color: var(--ink-soft); }
+  .place b { font-size: 17px; }
+  .place span { font-size: 14px; color: var(--ink-soft); }
+  .photos { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .photo { margin: 0; position: relative; border-radius: 16px; overflow: hidden; }
+  .photo:nth-child(2) { grid-column: 1 / -1; order: 3; }
+  .photo img { display: block; width: 100%; aspect-ratio: 3/4; object-fit: cover; }
+  .photo:nth-child(2) img { aspect-ratio: 4/3; }
+  /* 사진 안 아래쪽에 흰 글씨 — 밝은 사진에서도 읽히게 아래로 어두워지는 그림자 */
+  .photo figcaption {
+    position: absolute; left: 0; right: 0; bottom: 0; display: grid; gap: 1px;
+    padding: 28px 12px 10px; color: #fff; font-size: 14px; font-weight: 600;
+    background: linear-gradient(transparent, rgba(0,0,0,.7));
+  }
+  .photo figcaption small { font-size: 12px; font-weight: 500; opacity: .85; }
+  .options { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .options li { background: #fff; border-radius: 16px; padding: 12px 14px; display: grid; gap: 2px; }
+  .options b { font-size: 17px; }
+  .options span { font-size: 14px; color: var(--ink-soft); }
+  .more { margin-top: 8px; }
+  .more summary { display: inline-flex; align-items: center; gap: 4px; cursor: pointer; list-style: none; font-size: 14px; font-weight: 700; color: var(--ink-soft); }
+  .more summary::-webkit-details-marker { display: none; }
+  .more summary::after { content: "›"; display: inline-block; font-size: 17px; line-height: 1; transition: transform .15s ease; }
+  .more[open] summary::after { transform: rotate(90deg); }
+  .more .options { margin-top: 10px; gap: 0; background: rgba(255,255,255,.55); border-radius: 14px; padding: 4px 14px; }
+  .more .options li { background: none; border-radius: 0; padding: 10px 0; }
+  .more .options li + li { border-top: 1px solid rgba(25,24,64,.12); }
+  .more .options b { font-size: 15px; }
+  .more .options span { font-size: 13px; }
+  sup { font-size: 11px; font-weight: 700; background: var(--pink); padding: 1px 7px; border-radius: 999px; margin-left: 4px; }
+  .schedule { list-style: none; margin: 0; padding: 0; }
+  .schedule > li { display: grid; grid-template-columns: 96px 1fr; gap: 10px; padding: 9px 0; border-bottom: 1px dashed rgba(25,24,64,.2); font-size: 15px; }
+  .schedule > li:last-child { border-bottom: 0; }
+  .schedule time { font-weight: 800; }
+  .pc ul { margin: 0 0 4px; padding-left: 18px; font-size: 15px; line-height: 1.8; }
+  .pc h3 + ul { margin-bottom: 16px; }
+  /* 미리보기로 — 오른쪽 아래 떠 있는 버튼. 미리보기 카드를 지나 내려가면 나타남 */
+  .back {
+    position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom)); z-index: 10;
+    padding: 10px 16px; border-radius: 999px; background: rgba(25,24,64,.88); color: #fff;
+    font-size: 14px; font-weight: 600; text-decoration: none; box-shadow: 0 6px 16px rgba(0,0,0,.25);
+    opacity: 0; transform: translateY(8px); pointer-events: none; transition: opacity .2s ease, transform .2s ease;
+  }
+  .back.show { opacity: 1; transform: none; pointer-events: auto; }
+
+  /* 마무리 */
+  .outro { padding: 56px 0 96px; text-align: center; color: #fff; }
+  .outro .block { text-align: left; color: var(--ink); }
+  .memo-q { margin: 0 0 4px; font-size: 18px; font-weight: 800; }
+  .memo-d { margin: 0 0 12px; font-size: 14px; color: var(--ink-soft); }
+  textarea { width: 100%; box-sizing: border-box; font: inherit; font-size: 15px; color: var(--ink); border: 0; border-radius: 14px; padding: 12px 14px; resize: vertical; }
+  button { margin-top: 10px; width: 100%; padding: 13px; border: 0; border-radius: 999px; background: var(--pink); color: var(--ink); font: inherit; font-size: 16px; font-weight: 800; cursor: pointer; }
+  button:disabled { opacity: .55; cursor: default; }
+  .memo-status { min-height: 1.5em; margin: 8px 0 0; font-size: 13px; color: var(--ink-soft); text-align: center; }
+  .outro .final { margin: 36px 0 64px; font-size: 19px; font-weight: 700; line-height: 1.12; }
+  .outro .final strong { display: inline-block; margin-top: 4px; font-size: 28px; font-weight: 700; color: var(--pink); -webkit-text-stroke: 4px var(--outline); paint-order: stroke fill; }
+</style>
+</head>
+<body>
+  <section class="cover"><div class="col">
+    <p class="date">2026. 10. 31 (토) 단 하루</p>
+    <h1>현수 생일 기념<br>원데이 투어</h1>
+    <p class="sub">혜지와 보람이, 누나 둘이 놀아주는<br>기가막힌 하루 뭐하고 놀래?</p>
+  </div></section>
+
+  <main class="wrap">
+    <h2 class="sec-title" id="preview">4가지 코스 미리보기</h2>
+    <nav class="grid" id="grid" aria-label="4가지 코스"></nav>
+    <div id="tours"></div>
+    <a class="back" id="back" href="#preview">↑ 미리보기로</a>
+    <section class="outro">
+      <div class="block">
+        <p class="memo-q">혹시 다 별로라면?</p>
+        <p class="memo-d">마음대로 적어보세요. 하나만 빼고!</p>
+        <textarea id="memo-input" rows="4" placeholder="방탈출 빼고 뭐든!"></textarea>
+        <button type="button" id="memo-save">저장</button>
+        <p class="memo-status" id="memo-status" role="status"></p>
+      </div>
+      <p class="final">뭘 이렇게까지 하나 싶지만<br><strong>생일 미리 축하해!</strong></p>
+    </section>
+  </main>
+
+  <script src="shared/tours.js?v=33"></script>
+  <script>
+  (function () {
+    const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+    const pad = (n) => String(n).padStart(2, "0");
+    const escBr = (s) => esc(s).replace(/\n/g, "<br>");  // 제목 안 \n = 줄바꿈
+    const four = TOURS.filter((t) => !t.memo);
+
+    document.getElementById("grid").innerHTML = four.map((t) => `
+      <a class="card" href="#tour-${t.no}">
+        <span class="no">${pad(t.no)}</span>
+        <span class="where">${esc(t.where)}</span>
+        <span class="ttl">${escBr(t.title)}</span>
+        <span class="go">자세히 보기 ↓</span>
+      </a>`).join("");
+
+    const places = (t) => {
+      const photo = t.places[0].img;
+      const items = t.places.map((p) => p.img
+        ? `<figure class="photo"><img src="${p.img}" alt="${esc(p.name)}" loading="lazy"><figcaption><small>${esc(p.label)}</small>${esc(p.name)}</figcaption></figure>`
+        : `<a class="place" href="${p.url}" target="_blank" rel="noopener" aria-label="${esc(p.name)} 네이버 지도에서 보기"><span class="txt"><small>${esc(p.label)}</small><b>${esc(p.name)}</b><span>${esc(p.desc)}</span></span><span class="arrow" aria-hidden="true">›</span></a>`).join("");
+      return `<div class="block"><h3>장소 라인업${t.secret ? `<span class="secret">${esc(t.secret)}</span>` : ""}</h3><div class="${photo ? "photos" : "places"}">${items}</div></div>`;
+    };
+    const optionList = (t) => `<ul class="options">${
+      t.options.items.map((o) => `<li><b>${esc(o.name)}${o.pick ? "<sup>추천</sup>" : ""}</b><span>${esc(o.desc)}</span></li>`).join("")}</ul>`;
+    const schedule = (t) => `<div class="block"><h3>타임라인</h3>${t.note ? `<p class="note">${esc(t.note)}</p>` : ""}<ol class="schedule">${
+      t.schedule.map(([tm, w, more]) => `<li><time>${esc(tm)}</time><span>${esc(w)}${
+        more === "options" && t.options ? `<details class="more"><summary>자세히 보기</summary>${optionList(t)}</details>` : ""}</span></li>`).join("")}</ol></div>`;
+    const pc = (t) => `<div class="block pc"><h3>장점</h3><ul>${t.pros.map((x) => `<li>${esc(x)}</li>`).join("")}</ul><h3>아쉬운 점</h3><ul>${t.cons.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>`;
+
+    document.getElementById("tours").innerHTML = four.map((t) => `
+      <section class="tour" id="tour-${t.no}">
+        <header class="tour-head">
+          <span class="no">${pad(t.no)}</span>
+          <p class="where">${esc(t.detailWhere || t.where)}</p>
+          <h2>${escBr(t.detailTitle || t.title)}</h2>
+        </header>
+        ${places(t)}${schedule(t)}${pc(t)}
+      </section>`).join("");
+
+    // 미리보기 카드 묶음이 화면 위로 지나가면 버튼 표시
+    const back = document.getElementById("back");
+    new IntersectionObserver(([e]) => back.classList.toggle("show", !e.isIntersecting && e.boundingClientRect.top < 0))
+      .observe(document.getElementById("grid"));
+
+    // 5번 메모 — 저장 주소(TRIP.memoEndpoint)가 비어 있으면 미리보기 상태
+    const input = document.getElementById("memo-input");
+    const btn = document.getElementById("memo-save"), status = document.getElementById("memo-status");
+    if (!TRIP.memoEndpoint) { btn.disabled = true; status.textContent = "저장 기능 연결 전이야 (미리보기)"; return; }
+    fetch(TRIP.memoEndpoint).then((r) => r.json()).then((d) => { input.value = d.memo || ""; }).catch(() => {});  // 저장된 메모는 입력칸에 채워 보여줌
+    btn.addEventListener("click", () => {
+      btn.disabled = true; status.textContent = "저장 중…";
+      fetch(TRIP.memoEndpoint, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ memo: input.value }) })
+        .then((r) => r.json()).then((d) => { if (!d.ok) throw 0; status.textContent = "저장했어!"; })
+        .catch(() => { status.textContent = "저장이 안 됐어. 다시 눌러줘"; })
+        .finally(() => { btn.disabled = false; });
+    });
+  })();
+  </script>
+</body>
+</html>
