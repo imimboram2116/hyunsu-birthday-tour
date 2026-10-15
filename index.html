@@ -127,7 +127,8 @@
   .schedule time { font-weight: 800; }
   .pc ul { margin: 0 0 4px; padding-left: 18px; font-size: 15px; line-height: 1.8; }
   .pc h3 + ul { margin-bottom: 16px; }
-  /* 미리보기로 — 오른쪽 아래 떠 있는 버튼. 미리보기 카드를 지나 내려가면 나타남 */
+  .foot { padding: 0 16px 28px; text-align: center; font-size: 12px; color: rgba(255,255,255,.85); }
+  /* TOP — 오른쪽 아래 떠 있는 버튼. 미리보기 카드를 지나 내려가면 나타남 */
   .back {
     position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom)); z-index: 10;
     padding: 10px 16px; border-radius: 999px; background: rgba(25,24,64,.88); color: #fff;
@@ -150,7 +151,7 @@
 </style>
 </head>
 <body>
-  <section class="cover"><div class="col">
+  <section class="cover" id="top"><div class="col">
     <p class="date">2026. 10. 31 (토) 단 하루</p>
     <h1>현수 생일 기념<br>원데이 투어</h1>
     <p class="sub">혜지와 보람이, 누나 둘이 놀아주는<br>기가막힌 하루 뭐하고 놀래?</p>
@@ -160,7 +161,7 @@
     <h2 class="sec-title" id="preview">4가지 코스 미리보기</h2>
     <nav class="grid" id="grid" aria-label="4가지 코스"></nav>
     <div id="tours"></div>
-    <a class="back" id="back" href="#preview">↑ 미리보기로</a>
+    <a class="back" id="back" href="#top">↑ TOP</a>
     <section class="outro">
       <div class="block">
         <p class="memo-q">혹시 다 별로라면?</p>
@@ -172,6 +173,7 @@
       <p class="final">뭘 이렇게까지 하나 싶지만<br><strong>생일 미리 축하해!</strong></p>
     </section>
   </main>
+  <footer class="foot">created by @imbborami</footer>
 
   <script src="shared/tours.js?v=33"></script>
   <script>
